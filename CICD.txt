@@ -19,6 +19,7 @@ https://www.betsol.com/blog/devops-using-jenkins-docker-and-kubernetes/
 
 https://www.tutorialworks.com/devops-project-ideas/
 
+https://devopsmadeeasy.com/tomcat-and-mysql-database-configuration/
 
 projct 1
 
