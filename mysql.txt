@@ -1,0 +1,98 @@
+mysql
+
+sudo wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+sudo yum localinstall mysql57-community-release-el7-11.noarch.rpm
+
+sudo yum install mysql-community-server
+
+service mysqld start/status/stop
+
+Run below command to get MySQL 5.7 default password on Amazon Linux 2
+
+sudo grep 'temporary password' /var/log/mysqld.log
+
+MySQL Server comes with a script mysql_secure_installation this can do multiple security related operations.
+
+You have to enter yes or No to below security features,
+
+Change the password for root ? ((Press Y|Y for Yes, any other key for No)
+Remove anonymous users? (Press Y|Y for Yes, any other key for No)
+Disallow root login remotely? (Press Y|Y for Yes, any other key for No)
+Remove test database and access to it? (Press Y|Y for Yes, any other key for No)
+Reload privilege tables now? (Press Y|Y for Yes, any other key for No)
+ 
+mysql_secure_installation 
+
+mysql -u root -p
+
+CREATE USER 'Admin' IDENTIFIED BY 'Admin@777';
+
+GRANT ALL PRIVILEGES ON *.* TO 'Admin'; (replace . with database name for limiting the privileges)
+OR
+GRANT ALL PRIVILEGES ON *.* TO 'Admin' WITH GRANT OPTION; (to give admin grant access to other users)
+
+FLUSH PRIVILEGES; (reload)
+
+CREATE DATABASE testdb;
+SHOW CREATE DATABASE testdb;
+
+USE testdb; (to access the created database)
+
+SHOW GLOBAL VARIABLES LIKE '%PORT%'; (to check the ports)
+
+enabling mysql remote access
+
+Open the /etc/my.cnf file
+
+sudo nano /etc/my.cnf
+Add the line at [mysqld] section
+
+[mysqld]
+
+bind-address  = 0.0.0.0
+
+Restart the MySQL Server to take effect.
+
+sudo systemctl restart mysqld.service
+
+MySQL Settings and Configuration for Low RAM Systems
+
+[mysqld]
+
+# Disable performance schema to hugely reduce RAM usage
+performance_schema = OFF
+
+# I'm not sure if these two commands make any difference, but they don't seem to hurt
+innodb_buffer_pool_size=30M
+innodb_log_buffer_size=256K
+
+[mysqld_safe]
+
+# Settings to reduce RAM
+innodb_buffer_pool_size=25M
+innodb_log_buffer_size=256K
+query_cache_size=10000
+max_connections=30
+key_buffer_size=80
+innodb_ft_cache_size=1600000
+innoinnodb_ft_total_cache_size=32000000
+table_definition_cache=150
+
+# Settings to reduce RAM: per thread or per operation settings
+thread_stack=131072
+sort_buffer_size=32K
+read_buffer_size=8200
+read_rnd_buffer_size=8200
+max_heap_table_size=16K
+tmp_table_size=50K
+bulk_insert_buffer_size=100
+join_buffer_size=128
+net_buffer_length=1K
+innodb_sort_buffer_size=64K
+
+# Settings to reduce RAM: settings that relate to the binary log (if enabled)
+binlog_cache_size=4K
+binlog_stmt_cache_size=4K
+
+https://www.mulesoft.com/tcat/tomcat-mysql // tomcat mysql connection config.

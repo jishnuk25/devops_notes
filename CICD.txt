@@ -19,6 +19,7 @@ https://www.betsol.com/blog/devops-using-jenkins-docker-and-kubernetes/
 
 https://www.tutorialworks.com/devops-project-ideas/
 
+https://www.devopshint.com/install-mysql-5-7-on-amazon-linux-2/
 
 projct 1
 

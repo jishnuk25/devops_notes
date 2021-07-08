@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  tasks:
+  - name: bat install
+    homebrew: name = bat state = latest
+    homebrew:
+      name: jq
+      state: latest
