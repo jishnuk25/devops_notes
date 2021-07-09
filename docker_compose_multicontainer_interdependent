@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  nginx: # service name
+    build: ./nginx # location of the dockerfile to build the image for this service
+    ports: # host:container- Bind the container port(80) to the host port(1339) Any traffic from the host via port 1339 will go to the docker container via port 80 
+      - 1339:80 
+    volumes: # define location where static files will live
+      - static_volume:/home/app/microservice/static
+    depends_on:
+      - web # web should be up and running for nginx to start
+    restart: "on-failure" # restart nginx container if it fails
+  web:
+    build: . #build the image for the web service from the dockerfile in parent directory
+    # issue commands to the application n the container
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic &&
+                    gunicorn django_microservice.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    volumes:
+      - .:/microservice:rw # map data and files from parent directory in host to microservice directory in docker containe
+      - static_volume:/home/app/microservice/static
+    env_file: # set the location and name of the env file to use when building the containers
+      - .env
+    image: django_microservice # image name
+
+    expose:
+      - ${APP_PORT} # internally expose the given port to other containers within the docker network
+    restart: "on-failure"
+    depends_on:
+      - db # web will only start if db is up and running
+  db: # service name
+    image: postgres:11-alpine # base image from dockerhub
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/ # define where the postgres data will live within the postgres container
+    environment: # set environment variables from the .env file set using the env_file directive
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGPORT=${DB_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+    restart: "on-failure" # restart db service if it fails
+
+
+volumes:
+  postgres_data: # setup storage volume for data held by the Postgres db
+  static_volume: # setup storage volume for static files such as css files and images.
