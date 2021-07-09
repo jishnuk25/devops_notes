@@ -44,4 +44,4 @@ services:
 
 volumes:
   postgres_data: # setup storage volume for data held by the Postgres db
-  static_volume: # setup storage volume for static files such as css files and images.
+  static_volume: # setup storage volume for static files such as css files and images
