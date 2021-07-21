@@ -68,3 +68,9 @@ Pick a language (e.g. Go, Java, Python, .NET, etc.)
 Write (yes, code!) a basic application that exposes a REST or GraphQL API (e.g. a microservice). You can use the app generator by provided by the framework, if there is one, to create the initial scaffolding. Then, define your API.
 Create a build pipeline in your chosen CI/CD tool (e.g. Jenkins, GitLab, etc.) and add to the repository (pipeline-as-code)
 Extend the pipeline to build a container and deploy to Kubernetes.
+
+
+1. java project with mysql backend
+2. source code management with branches dev test qa prod
+3. jenkins pipeline for build, containerizaion, code quality scan, security scan, push to container registry
+4. deployment to k8s cluster and sanity tests
