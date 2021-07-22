@@ -25,6 +25,9 @@ https://www.devopshint.com/install-mysql-5-7-on-amazon-linux-2/
 https://devopsmadeeasy.com/tomcat-and-mysql-database-configuration/
 >>>>>>> a6a01f4157bed25c5a5da77353bd9fa0a650785b
 
+tomcat and mysql containers
+https://medium.com/swlh/deploy-a-tomcat-application-using-docker-compose-d34db50edddd
+
 projct 1
 
 Create a Git repository to store your work
